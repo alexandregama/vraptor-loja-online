@@ -1,7 +1,10 @@
 package br.com.loja.repositorio;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
@@ -32,6 +35,13 @@ public class RepositorioDeProdutos {
 		Produto produto = entityManager.find(Produto.class, id);
 		
 		return produto;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Produto> listaTodos() {
+		Query query = entityManager.createQuery("from Produto");
+		
+		return query.getResultList();
 	}
 	
 }

@@ -1,5 +1,6 @@
 package br.com.loja.repositorio.teste;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.loja.builder.ProdutoBuilder;
+import br.com.loja.controller.ProdutoController;
 import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
@@ -34,8 +36,8 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
-		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
-		repositorio.insere(novoProduto);
+		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
+		controller.insere(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
 		
@@ -50,15 +52,15 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
-		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
-		repositorio.insere(novoProduto);
+		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
+		controller.insere(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
 		produto.setNome("Teclado com Mouse");
 		BigDecimal novoPreco = new BigDecimal(185);
 		produto.setPreco(novoPreco);
 		
-		repositorio.atualiza(produto);
+		controller.atualiza(produto);
 		
 		Produto produtoAtualizado = buscaProdutoInserido();
 		
@@ -73,16 +75,38 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 		
-		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
-		repositorio.insere(novoProduto);
+		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
+		controller.insere(novoProduto);
 		
 		Produto produtoCadastrado = buscaProdutoInserido();
 		Long idGerado = produtoCadastrado.getId();
 		
-		Produto produto = repositorio.obtemPorId(idGerado);
+		Produto produto = controller.obtemPorId(idGerado);
 		
 		assertEquals(produto.getNome(), "Teclado");
 		assertTrue(preco.compareTo(produto.getPreco()) == 0);
+	}
+	
+	@Test
+	public void deveriaListarTodosOsProdutosCadastrados() throws Exception {
+		removeTodosOsProdutos();
+		
+		BigDecimal precoDoTeclado = new BigDecimal(125);
+		Produto teclado = new ProdutoBuilder().umProduto().chamado("Teclado").custando(precoDoTeclado).build();
+		BigDecimal precoDoMouse = new BigDecimal(25);
+		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(precoDoMouse).build();
+		
+		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
+		controller.insere(teclado);
+		controller.insere(mouse);
+		
+		List<Produto> produtos = controller.listaTodos();
+		
+		assertEquals(2, produtos.size());
+		assertEquals("Teclado", produtos.get(0).getNome());
+		assertEquals("Mouse", produtos.get(1).getNome());
+		assertTrue(precoDoTeclado.compareTo(produtos.get(0).getPreco()) == 0);
+		assertTrue(precoDoMouse.compareTo(produtos.get(1).getPreco()) == 0);
 	}
 	
 	private void removeTodosOsProdutos() {
