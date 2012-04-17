@@ -22,6 +22,7 @@ public class ProdutosController {
 	
 	public void adiciona(Produto produto) {
 		repositorioDeProdutos.insere(produto);
+		result.redirectTo(this).lista();
 	}
 
 	public void atualiza(Produto produto) {
