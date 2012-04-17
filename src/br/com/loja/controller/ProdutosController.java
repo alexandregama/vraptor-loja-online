@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
 
@@ -11,8 +12,11 @@ import br.com.loja.repositorio.RepositorioDeProdutos;
 public class ProdutosController {
 
 	private final RepositorioDeProdutos repositorioDeProdutos;
+	
+	private final Result result;
 
-	public ProdutosController(RepositorioDeProdutos repositorioDeProdutos) {
+	public ProdutosController(Result result, RepositorioDeProdutos repositorioDeProdutos) {
+		this.result = result;
 		this.repositorioDeProdutos = repositorioDeProdutos;
 	}
 	
