@@ -28,5 +28,6 @@
 	</table>
 	
 	<a href="<c:url value="/produtos/lista"/>">Lista Produtos</a>
+	<a href="<c:url value="/produtos/formulario"/>">Novo Produto</a>
 </body>
 </html>
