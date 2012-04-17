@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.loja.builder.ProdutoBuilder;
-import br.com.loja.controller.ProdutoController;
+import br.com.loja.controller.ProdutosController;
 import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
@@ -36,8 +36,8 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
-		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
-		controller.insere(novoProduto);
+		ProdutosController controller = new ProdutosController(new RepositorioDeProdutos());
+		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
 		
@@ -52,8 +52,8 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
-		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
-		controller.insere(novoProduto);
+		ProdutosController controller = new ProdutosController(new RepositorioDeProdutos());
+		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
 		produto.setNome("Teclado com Mouse");
@@ -75,8 +75,8 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal preco = new BigDecimal(125);
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 		
-		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
-		controller.insere(novoProduto);
+		ProdutosController controller = new ProdutosController(new RepositorioDeProdutos());
+		controller.adiciona(novoProduto);
 		
 		Produto produtoCadastrado = buscaProdutoInserido();
 		Long idGerado = produtoCadastrado.getId();
@@ -96,9 +96,9 @@ public class RepositorioDeProdutosTeste {
 		BigDecimal precoDoMouse = new BigDecimal(25);
 		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(precoDoMouse).build();
 		
-		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
-		controller.insere(teclado);
-		controller.insere(mouse);
+		ProdutosController controller = new ProdutosController(new RepositorioDeProdutos());
+		controller.adiciona(teclado);
+		controller.adiciona(mouse);
 		
 		List<Produto> produtos = controller.lista();
 		
@@ -115,10 +115,10 @@ public class RepositorioDeProdutosTeste {
 		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(new BigDecimal(25)).build();
 		Produto penDrive = new ProdutoBuilder().umProduto().chamado("Pen Drive").custando(new BigDecimal(25)).build();
 		
-		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
-		controller.insere(teclado);
-		controller.insere(mouse);
-		controller.insere(penDrive);
+		ProdutosController controller = new ProdutosController(new RepositorioDeProdutos());
+		controller.adiciona(teclado);
+		controller.adiciona(mouse);
+		controller.adiciona(penDrive);
 	}
 	
 	private void removeTodosOsProdutos() {
