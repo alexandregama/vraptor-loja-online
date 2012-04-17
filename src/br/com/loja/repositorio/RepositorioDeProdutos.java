@@ -20,7 +20,13 @@ public class RepositorioDeProdutos {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		entityManager.persist(novoProduto);
-		entityManager.flush();
+		transaction.commit();
+	}
+
+	public void atualiza(Produto produto) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.merge(produto);
 		transaction.commit();
 	}
 	
