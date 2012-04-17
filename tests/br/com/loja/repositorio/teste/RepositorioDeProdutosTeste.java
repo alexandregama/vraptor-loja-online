@@ -1,5 +1,6 @@
 package br.com.loja.repositorio.teste;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -106,6 +107,18 @@ public class RepositorioDeProdutosTeste {
 		assertEquals("Mouse", produtos.get(1).getNome());
 		assertTrue(precoDoTeclado.compareTo(produtos.get(0).getPreco()) == 0);
 		assertTrue(precoDoMouse.compareTo(produtos.get(1).getPreco()) == 0);
+	}
+
+	@Test
+	public void insereprodutosParaTeste() throws Exception {
+		Produto teclado = new ProdutoBuilder().umProduto().chamado("Teclado").custando(new BigDecimal(125)).build();
+		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(new BigDecimal(25)).build();
+		Produto penDrive = new ProdutoBuilder().umProduto().chamado("Pen Drive").custando(new BigDecimal(25)).build();
+		
+		ProdutoController controller = new ProdutoController(new RepositorioDeProdutos());
+		controller.insere(teclado);
+		controller.insere(mouse);
+		controller.insere(penDrive);
 	}
 	
 	private void removeTodosOsProdutos() {
