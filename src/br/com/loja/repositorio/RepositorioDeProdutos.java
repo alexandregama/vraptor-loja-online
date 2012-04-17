@@ -29,5 +29,11 @@ public class RepositorioDeProdutos {
 		entityManager.merge(produto);
 		transaction.commit();
 	}
+
+	public Produto obtemPorId(Long id) {
+		Produto produto = entityManager.find(Produto.class, id);
+		
+		return produto;
+	}
 	
 }

@@ -40,14 +40,14 @@ public class RepositorioDeProdutosTeste {
 		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
 		repositorio.insere(novoProduto);
 		
-		Produto produto = buscaProduto();
+		Produto produto = buscaProdutoInserido();
 		
 		assertEquals("Teclado", produto.getNome());
 		assertTrue(preco.compareTo(produto.getPreco()) == 0);
 	}
 
 	@Test
-	public void deveriaModificarUmProdutoComNomeEPreco() throws Exception {
+	public void deveriaAtualizarUmProdutoComNomeEPreco() throws Exception {
 		removeTodosOsProdutos();
 		
 		BigDecimal preco = new BigDecimal(125);
@@ -56,17 +56,36 @@ public class RepositorioDeProdutosTeste {
 		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
 		repositorio.insere(novoProduto);
 		
-		Produto produto = buscaProduto();
+		Produto produto = buscaProdutoInserido();
 		produto.setNome("Teclado com Mouse");
 		BigDecimal novoPreco = new BigDecimal(185);
 		produto.setPreco(novoPreco);
 		
 		repositorio.atualiza(produto);
 		
-		Produto produtoAtualizado = buscaProduto();
+		Produto produtoAtualizado = buscaProdutoInserido();
 		
 		assertEquals("Teclado com Mouse", produtoAtualizado.getNome());
 		assertTrue(novoPreco.compareTo(produtoAtualizado.getPreco()) == 0);
+	}
+	
+	@Test
+	public void deveriaRetornarUmProdutoPeloSeuId() throws Exception {
+		removeTodosOsProdutos();
+		
+		BigDecimal preco = new BigDecimal(125);
+		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
+		
+		RepositorioDeProdutos repositorio = new RepositorioDeProdutos();
+		repositorio.insere(novoProduto);
+		
+		Produto produtoCadastrado = buscaProdutoInserido();
+		Long idGerado = produtoCadastrado.getId();
+		
+		Produto produto = repositorio.obtemPorId(idGerado);
+		
+		assertEquals(produto.getNome(), "Teclado");
+		assertTrue(preco.compareTo(produto.getPreco()) == 0);
 	}
 	
 	private void removeTodosOsProdutos() {
@@ -78,7 +97,7 @@ public class RepositorioDeProdutosTeste {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Produto buscaProduto() {
+	private Produto buscaProdutoInserido() {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		Query query = entityManager.createQuery("from Produto");
