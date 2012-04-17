@@ -6,9 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 
+@Component
 public class RepositorioDeProdutos {
 
 	private EntityManager entityManager;

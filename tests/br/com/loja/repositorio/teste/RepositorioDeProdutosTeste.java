@@ -99,7 +99,7 @@ public class RepositorioDeProdutosTeste {
 		controller.insere(teclado);
 		controller.insere(mouse);
 		
-		List<Produto> produtos = controller.listaTodos();
+		List<Produto> produtos = controller.lista();
 		
 		assertEquals(2, produtos.size());
 		assertEquals("Teclado", produtos.get(0).getNome());
