@@ -33,7 +33,7 @@ public class ProdutosController {
 		return repositorioDeProdutos.listaTodos();
 	}
 
-	@Path("/formulario")
+	@Path("/produtos/formulario")
 	public void formulario() {
 	}
 
