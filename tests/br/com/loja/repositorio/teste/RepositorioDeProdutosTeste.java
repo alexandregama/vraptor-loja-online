@@ -1,6 +1,5 @@
 package br.com.loja.repositorio.teste;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -8,15 +7,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import br.com.loja.builder.ProdutoBuilder;
+import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
 
@@ -26,8 +24,7 @@ public class RepositorioDeProdutosTeste {
 
 	@Before
 	public void criaEntityManager() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("fj28");
-		entityManager = entityManagerFactory.createEntityManager();
+		entityManager = CriadorDeSessao.obtemSessao();
 	}
 	
 	@Test

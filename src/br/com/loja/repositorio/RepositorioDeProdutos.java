@@ -1,10 +1,9 @@
 package br.com.loja.repositorio;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
+import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 
 public class RepositorioDeProdutos {
@@ -12,8 +11,7 @@ public class RepositorioDeProdutos {
 	private EntityManager entityManager;
 
 	public RepositorioDeProdutos() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("fj28");
-		entityManager = factory.createEntityManager();
+		entityManager = CriadorDeSessao.obtemSessao();
 	}
 	
 	public void insere(Produto novoProduto) {
