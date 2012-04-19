@@ -19,10 +19,10 @@ public class RepositorioDeProdutos {
 		entityManager = CriadorDeSessao.obtemSessao();
 	}
 	
-	public void insere(Produto novoProduto) {
+	public void insere(Produto produto) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
-		entityManager.persist(novoProduto);
+		entityManager.persist(produto);
 		transaction.commit();
 	}
 
@@ -44,6 +44,13 @@ public class RepositorioDeProdutos {
 		Query query = entityManager.createQuery("from Produto");
 		
 		return query.getResultList();
+	}
+
+	public void remove(Produto produto) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.remove(produto);
+		transaction.commit();
 	}
 	
 }

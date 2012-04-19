@@ -1,9 +1,11 @@
 package br.com.loja.repositorio.teste;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,8 +16,6 @@ import javax.persistence.Query;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.loja.builder.ProdutoBuilder;
@@ -132,18 +132,18 @@ public class ProdutosControllerTeste {
 	
 	@Test
 	public void deveriaEnviarOUsuarioParaAListaDeProdutosAposCadastroDeNovoProduto() throws Exception {
-		Produto produto = Mockito.mock(Produto.class);
+		Produto produto = mock(Produto.class);
 		MockResult result = spy(new MockResult());
-		RepositorioDeProdutos repositorio = Mockito.mock(RepositorioDeProdutos.class);
+		RepositorioDeProdutos repositorio = mock(RepositorioDeProdutos.class);
 		
 		ProdutosController controller = new ProdutosController(result, repositorio);
 		ProdutosController spyController = spy(controller);
 		
-		Mockito.when(result.redirectTo(controller)).thenReturn(spyController);
+		when(result.redirectTo(controller)).thenReturn(spyController);
 		
 		controller.adiciona(produto);
 		
-		Mockito.verify(spyController).lista();
+		verify(spyController).lista();
 	}
 	
 	private void removeTodosOsProdutos() {

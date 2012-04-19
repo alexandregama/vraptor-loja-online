@@ -38,6 +38,21 @@ public class ProdutosController {
 		return repositorioDeProdutos.listaTodos();
 	}
 
+	public Produto edita(Long id) {
+		return repositorioDeProdutos.obtemPorId(id);
+	}
+	
+	public void altera(Produto produto) {
+		repositorioDeProdutos.atualiza(produto);
+		result.redirectTo(this).lista();
+	}
+	
+	public void remove(Long id) {
+		Produto produto = repositorioDeProdutos.obtemPorId(id);
+		repositorioDeProdutos.remove(produto);
+		result.redirectTo(this).lista();
+	}
+	
 	@Path("/produtos/formulario")
 	public void formulario() {
 	}
