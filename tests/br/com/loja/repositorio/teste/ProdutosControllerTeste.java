@@ -20,7 +20,7 @@ import org.junit.Test;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.loja.builder.ProdutoBuilder;
 import br.com.loja.controller.ProdutosController;
-import br.com.loja.infra.CriadorDeSessao;
+import br.com.loja.infra.CriadorDeEntityManager;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
 
@@ -30,7 +30,7 @@ public class ProdutosControllerTeste {
 
 	@Before
 	public void criaEntityManager() {
-		entityManager = CriadorDeSessao.obtemSessao();
+		entityManager = new CriadorDeEntityManager().getInstance();
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos());
+		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
@@ -58,7 +58,7 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos());
+		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
@@ -82,7 +82,7 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos());
+		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produtoCadastrado = buscaProdutoInserido();
@@ -104,7 +104,7 @@ public class ProdutosControllerTeste {
 		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(precoDoMouse).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos());
+		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(teclado);
 		controller.adiciona(mouse);
 		
@@ -124,7 +124,7 @@ public class ProdutosControllerTeste {
 		Produto penDrive = new ProdutoBuilder().umProduto().chamado("Pen Drive").custando(new BigDecimal(25)).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos());
+		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(teclado);
 		controller.adiciona(mouse);
 		controller.adiciona(penDrive);

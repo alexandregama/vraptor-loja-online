@@ -7,7 +7,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import br.com.caelum.vraptor.ioc.Component;
-import br.com.loja.infra.CriadorDeSessao;
 import br.com.loja.modelo.Produto;
 
 @Component
@@ -15,8 +14,8 @@ public class RepositorioDeProdutos {
 
 	private EntityManager entityManager;
 
-	public RepositorioDeProdutos() {
-		entityManager = CriadorDeSessao.obtemSessao();
+	public RepositorioDeProdutos(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
 	public void insere(Produto produto) {
