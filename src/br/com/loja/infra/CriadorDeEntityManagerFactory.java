@@ -18,7 +18,6 @@ public class CriadorDeEntityManagerFactory implements ComponentFactory<EntityMan
 	
 	@PostConstruct
 	public void criaFactory() {
-		System.out.println("Criando Factory");
 		factory = Persistence.createEntityManagerFactory(BANCO_DE_DADOS);
 	}
 	
@@ -29,7 +28,6 @@ public class CriadorDeEntityManagerFactory implements ComponentFactory<EntityMan
 	
 	@PreDestroy
 	public void fechaFactory() {
-		System.out.println("Fechando Factory");
 		factory.close();
 	}
 

@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
@@ -21,6 +22,7 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.loja.builder.ProdutoBuilder;
 import br.com.loja.controller.ProdutosController;
 import br.com.loja.infra.CriadorDeEntityManager;
+import br.com.loja.infra.CriadorDeEntityManagerFactory;
 import br.com.loja.modelo.Produto;
 import br.com.loja.repositorio.RepositorioDeProdutos;
 
@@ -30,7 +32,14 @@ public class ProdutosControllerTeste {
 
 	@Before
 	public void criaEntityManager() {
-		entityManager = new CriadorDeEntityManager().getInstance();
+		CriadorDeEntityManagerFactory criadorDeFactory = new CriadorDeEntityManagerFactory();
+		criadorDeFactory.criaFactory();
+		EntityManagerFactory factory = criadorDeFactory.getInstance();
+		
+		CriadorDeEntityManager criadorDeEntityManager = new CriadorDeEntityManager(factory);
+		criadorDeEntityManager.abreSessao();
+		
+		entityManager = criadorDeEntityManager.getInstance();
 	}
 	
 	@Test

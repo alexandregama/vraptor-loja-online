@@ -22,7 +22,6 @@ public class CriadorDeEntityManager implements ComponentFactory<EntityManager> {
 	
 	@PostConstruct
 	public void abreSessao() {
-		System.out.println("Abrindo sessao");
 		entityManager = factory.createEntityManager();
 	}
 	
@@ -33,7 +32,6 @@ public class CriadorDeEntityManager implements ComponentFactory<EntityManager> {
 	
 	@PreDestroy
 	public void fechaSessao() {
-		System.out.println("Fechando sessao");
 		entityManager.close();
 	}
 
