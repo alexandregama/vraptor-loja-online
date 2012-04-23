@@ -1,23 +1,40 @@
 package br.com.loja.infra;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.ComponentFactory;
+import br.com.caelum.vraptor.ioc.RequestScoped;
 
 @Component
+@RequestScoped
 public class CriadorDeEntityManager implements ComponentFactory<EntityManager> {
 
-	private static final String BANCO_DE_DADOS = "fj28";
+	private final EntityManagerFactory factory;
+	private EntityManager entityManager;
 
+	public CriadorDeEntityManager(EntityManagerFactory factory) {
+		this.factory = factory;
+	}
+	
+	@PostConstruct
+	public void abreSessao() {
+		System.out.println("Abrindo sessao");
+		entityManager = factory.createEntityManager();
+	}
+	
 	@Override
 	public EntityManager getInstance() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(BANCO_DE_DADOS);
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		
 		return entityManager;
+	}
+	
+	@PreDestroy
+	public void fechaSessao() {
+		System.out.println("Fechando sessao");
+		entityManager.close();
 	}
 
 }
