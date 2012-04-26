@@ -2,10 +2,12 @@ package br.com.loja.repositorio.teste;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,7 +20,10 @@ import javax.persistence.Query;
 import org.junit.Before;
 import org.junit.Test;
 
+import static br.com.caelum.vraptor.util.test.MockResult.*;
+import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.util.test.MockResult;
+import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.loja.builder.ProdutoBuilder;
 import br.com.loja.controller.ProdutosController;
 import br.com.loja.infra.CriadorDeEntityManager;
@@ -50,7 +55,8 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
@@ -67,7 +73,8 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produto = buscaProdutoInserido();
@@ -91,7 +98,8 @@ public class ProdutosControllerTeste {
 		Produto novoProduto = new ProdutoBuilder().umProduto().chamado("Teclado").custando(preco).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(novoProduto);
 		
 		Produto produtoCadastrado = buscaProdutoInserido();
@@ -113,7 +121,8 @@ public class ProdutosControllerTeste {
 		Produto mouse = new ProdutoBuilder().umProduto().chamado("Mouse").custando(precoDoMouse).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, new RepositorioDeProdutos(entityManager));
 		controller.adiciona(teclado);
 		controller.adiciona(mouse);
 		
@@ -133,7 +142,9 @@ public class ProdutosControllerTeste {
 		Produto penDrive = new ProdutoBuilder().umProduto().chamado("Pen Drive").custando(new BigDecimal(25)).build();
 		
 		MockResult result = new MockResult();
-		ProdutosController controller = new ProdutosController(result, new RepositorioDeProdutos(entityManager));
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, new RepositorioDeProdutos(entityManager));
+		
 		controller.adiciona(teclado);
 		controller.adiciona(mouse);
 		controller.adiciona(penDrive);
@@ -145,16 +156,18 @@ public class ProdutosControllerTeste {
 		MockResult result = spy(new MockResult());
 		RepositorioDeProdutos repositorio = mock(RepositorioDeProdutos.class);
 		
-		ProdutosController controller = new ProdutosController(result, repositorio);
+		Validator validator = new MockValidator();
+		ProdutosController controller = new ProdutosController(result, validator, repositorio);
 		ProdutosController spyController = spy(controller);
 		
 		when(result.redirectTo(controller)).thenReturn(spyController);
+		when(produto.getNome()).thenReturn("qualquer nome");
 		
 		controller.adiciona(produto);
 		
 		verify(spyController).lista();
 	}
-	
+
 	private void removeTodosOsProdutos() {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
